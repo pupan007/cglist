@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+
+<ul>
+{%block content%}
+ <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+    <h2 class="w3-wide">Welcome</h2>
+    <p class="w3-opacity"><i>About page</i></p>
+    <p class="w3-justify">Personal page made for educational purposes and some other stuff.
+     You can make yourself custom CV which should suits your needs. Page is still in development and it will be updated. Eventually.
+    Feel free to explore and contact me.
+  </div>
+<div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="band">
+  {% for post in object_list%}
+    <li><a href = "{% url 'category' post.category  %}">{{post.category}}</a> - <a href = "{%url 'detailed_view' post.pk %}">{{post.title}}</a> - {{post.author.first_name}} {{post.author.last_name}}<br/>
+  {% endfor %}
+</div>
+</ul>
+
+
+{% endblock %}

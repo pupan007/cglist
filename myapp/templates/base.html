@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>{%block title%}JR page{% endblock%}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style>
+    body {font-family: "Lato", sans-serif}
+    .mySlides {display: none}
+</style>
+<body>
+
+<!-- Navbar -->
+{%block navbar%}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+
+   
+  <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+  <a class="navbar-brand" href="#">Create CV</a>
+  <a class="navbar-brand" href="#contact">Contact</a>   
+  <a class="navbar-brand" href="/register">Register</a>
+
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown" >
+      {% if cat_menu %}
+        <a class=" dropdown-toggle navbar-brand" style="color: #ffffff"  id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Categories
+        </a>
+       
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        
+          {%for item in cat_menu%}
+            <a class="dropdown-item" href="{% url 'category' item%}">{{item}}</a>
+          {% endfor %}
+        {% endif %}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+
+  {% if user.is_authenticated%}
+    <a class="navbar-brand" href="{% url 'add_post' %}">Add post</a>       
+    <a class="navbar-brand" href="/profile">Profile</a>
+    <a class="navbar-brand" href="/logout/">Logout</a>
+  {% endif %}
+
+  {%if user.is_authenticated == False%}
+    <a class="navbar-brand" href="/login">Login</a>
+  {%endif%}
+</nav>
+{% endblock %}
+
+
+{% if messages %}
+  {%for message in messages%}
+    <div class = "alert alert-{{message.tags}} container">
+      {{message}}
+    </div>
+  {% endfor %}
+{%endif%}
+
+<!-- Page content -->
+<div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="content">
+{% block content %}
+{% endblock%}
+</div>
+
+<!-- Authentication logic-->
+    {% if user.is_authenticated%}
+      <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="content">
+      {% block logged %}
+      {% endblock  %}
+    {%endif%}
+      </div>
+    {%if user.is_authenticated == False%} 
+      <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="content">
+      {%block loggedoff%}
+      {%endblock%}
+    {%endif%}
+      </div>
+
+
+
+  <!-- The Band Section -->
+  
+  {%block contact%}
+
+    <!-- The Contact Section -->
+    <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+      <h2 class="w3-wide w3-center">CONTACT</h2>
+      <div class="w3-row w3-padding-32">
+        <div class="w3-col m6 w3-large w3-margin-bottom">
+          <i class="fa fa-map-marker" style="width:30px"></i> Vranov nad Topľou, SVK<br>
+          <i class="fa fa-phone" style="width:30px"></i> Phone: +421 918 099 353<br>
+          <i class="fa fa-envelope" style="width:30px"> </i> Email: jakub.rosner1@gmail.com<br>
+        </div>
+
+        <div class="w3-col m6">
+          <form action="/action_page.php" target="_blank">
+            <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+              <div class="w3-half">
+                <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
+              </div>
+              <div class="w3-half">
+                <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+              </div>  
+            </div>
+            <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
+            <button class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  {%endblock%}
+ 
+{%block footer%}
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+  <a href = "https://www.facebook.com/Pupan007/" target="_blank"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
+  <a href = "https://www.instagram.com/pupan007/" target="_blank"><i class="fa fa-instagram w3-hover-opacity"></i></a>
+  <a href = "https://www.linkedin.com/in/jakub-rosner" target="_blank"><i class="fa fa-linkedin w3-hover-opacity"></i></a>
+  
+   
+</footer>
+{%endblock%}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

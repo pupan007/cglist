@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Delete Post
+{% endblock  %}
+
+{%block content%}
+{%if user.id == post.author.id%}
+    <h1>Delete post</h1></br>
+    {%load crispy_forms_tags %}
+    <form method ='post'>
+    {% csrf_token %}
+    <strong> You are about to delete "{{post.title}}" </strong></br></br>
+    <button class = 'btn btn-secondary'>Delete </button>
+    </br></br>
+{% else %}
+    <p>Login <a href = '/login'>Here</a></p>
+{% endif %}
+{% endblock %}
+
+{% block contact %}
+{% endblock  %}
+
+{%block footer%}
+{%endblock%}

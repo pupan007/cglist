@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{post.title}}
+{% endblock  %}
+
+{%block content%}
+<h1>{{post.title}} - {{post.category}}</h1>
+<small>By: {{post.author.first_name}} {{post.author.last_name}} - {{post.pub_date}}</small>
+
+{%if user.is_authenticated%}
+  {%if user.id == post.author.id%}
+    <small><a href = "{% url 'edit_post' post.pk %}">(Edit)</a> 
+    <a href = "{% url 'delete_post' post.pk %}">(Delete)</a></small>
+  {% endif %}
+{%endif%}
+
+</br>
+
+
+{{post.content|safe}}
+</br>
+{% if post.header_image%}
+  <img src ="{{post.header_image.url}}">
+{% endif %}
+</br>
+<hr>
+</br>
+
+<form action = "{% url 'like_post' post.pk %}" method = "POST">
+  {% csrf_token %}
+  {%if user.is_authenticated%}
+    {%if liked%}
+      <button type = 'submit' name = 'post_id' value = '{{post.id}}' class="btn  btn-danger"><i class="fa fa-thumbs-up"></i>Unlike</button>
+    {% else %}
+      <button type = 'submit' name = 'post_id' value = '{{post.id}}' class="btn  btn-primary"><i class="fa fa-thumbs-up"></i>Like</button>   
+    {% endif %}
+  {%endif%}
+ {{post.total_likes}} Likes
+</form>
+
+</br></br>
+<a href = "{% url 'home'%}" class = "btn btn-secondary" >Back </a>
+
+{{post.author.profile.bio}}
+<img src ="{{post.author.profile.profile_pic.url}}">
+
+{% endblock content%}
+
+

@@ -15,11 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from register.views import register, UserEditView, PasswordChangeView
 
-from myapp import views
+from django.conf import settings
+from django.conf.urls.static import static
+ 
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('myapp.urls')),
-]
+    path('', include('CVGEN.urls')),
+    path('register/', register, name = "register" ),
+    path('', include('django.contrib.auth.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('profile/', UserEditView.as_view(), name= "profile"),
+    path('password/', PasswordChangeView.as_view())
+    
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

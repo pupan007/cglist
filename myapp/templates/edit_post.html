@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Edit Post
+{% endblock  %}
+
+{%block content%}
+{%if user.id == post.author.id%}
+    <h1>Edit post</h1></br>
+    {%load crispy_forms_tags %}
+    <form method ='post'>
+    {% csrf_token %}
+    {{form.media}}
+    {{form|crispy }}
+    <button class = 'btn btn-secondary'>Save </button>
+    </br></br>
+{% else %}
+    <p>Login <a href = '/login'>Here</a></p>
+{% endif %}
+
+{% endblock %}
+
+{% block contact %}
+{% endblock  %}

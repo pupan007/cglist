@@ -15,6 +15,13 @@ html, body {background: #d2d2d2; font-family: 'Lato', helvetica, arial, sans-ser
 
 .clear {clear: both;}
 
+.rounded-circle{
+	border:1px solid;
+	border-radius:50%;
+	width:50px;
+	height:50px;
+	}
+
 p {
 	font-size: 1em;
 	line-height: 1.4em;

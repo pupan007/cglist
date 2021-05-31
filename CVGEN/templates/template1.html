@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title>Joe Bloggs - Curriculum Vitae</title>
+<title>{{user.first_name}} {{user.last_name}} - Curriculum Vitae</title>
 
 <meta name="viewport" content="width=device-width"/>
 <meta name="description" content="The Curriculum Vitae of Joe Bloggs."/>
@@ -20,25 +20,44 @@
 <div id="cv" class="instaFade">
 	<div class="mainDetails">
 		<div id="headshot" class="quickFade">
-			<img src="{% static 'CVGEN/images/headshot.jpg'%}" alt="Alan Smith" />
+			{%if user.profile.profile_pic%}	
+				<img src="{{user.profile.profile_pic.url}}" alt="headshot" width="300" height="300" />
+			{% else %}
+				<img src="{% static 'CVGEN/images/headshot.jpg'%}" alt="headshot" />
+			{% endif %}
 		</div>
 		
 		<div id="name">
-			<h1 class="quickFade delayTwo">Joe Bloggs</h1>
-			<h2 class="quickFade delayThree">Job Title</h2>
+			<h1 class="quickFade delayTwo">{{user.first_name}} {{user.last_name}}</h1>
+			
 		</div>
 		
 		<div id="contactDetails" class="quickFade delayFour">
 			<ul>
-				<li>e: <a href="mailto:joe@bloggs.com" target="_blank">joe@bloggs.com</a></li>
-				<li>w: <a href="http://www.bloggs.com">www.bloggs.com</a></li>
-				<li>m: 01234567890</li>
+				<li>E-mail: <a href="{{user.email}}" target="_blank">{{user.email}}</a></li>
+
+				{% if user.profile.github %}
+					<li>GitHub: <a href="{{user.profile.github}}">{{user.first_name}}'s Github</a></li>
+				{% endif %}
+
+				{% if user.profile.linkedin %}
+					<li>LinkedIn: <a href="{{user.profile.linkedin}}" >{{user.first_name}}'s LinkedIn</a></li>
+				{% endif %}
+
+				{% if user.profile.website%}
+					<li>Website: <a href="{{user.profile.website}}">{{user.first_name}}'s website</a></li>
+				{% endif %}
+
+				{% if user.profile.phone %}
+					<li>Phone: {{user.profile.phone}}</li>
+				{% endif %}
 			</ul>
 		</div>
 		<div class="clear"></div>
 	</div>
 	
 	<div id="mainArea" class="quickFade delayFive">
+		{% if user.profile.bio %}
 		<section>
 			<article>
 				<div class="sectionTitle">
@@ -46,41 +65,33 @@
 				</div>
 				
 				<div class="sectionContent">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dolor metus, interdum at scelerisque in, porta at lacus. Maecenas dapibus luctus cursus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim. Vestibulum bibendum mattis dignissim. Proin id sapien quis libero interdum porttitor.</p>
+					<p>{{user.profile.bio}}</p>
 				</div>
 			</article>
 			<div class="clear"></div>
 		</section>
-		
-		
+		{% endif %}
+
+		{% if user.profile.experience.all%}
 		<section>
 			<div class="sectionTitle">
 				<h1>Work Experience</h1>
 			</div>
 			
+			{% for experience in user.profile.experience.all %}
 			<div class="sectionContent">
 				<article>
-					<h2>Job Title at Company</h2>
-					<p class="subDetails">April 2011 - Present</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim. Vestibulum bibendum mattis dignissim. Proin id sapien quis libero interdum porttitor.</p>
+					<h2>{{experience.job_name}}</h2>
+					<p class="subDetails">{{experience.start_date}} - {{experience.end_date}}</p>
+					<p>{{experience.description}}</p>
 				</article>
-				
-				<article>
-					<h2>Job Title at Company</h2>
-					<p class="subDetails">Janruary 2007 - March 2011</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim. Vestibulum bibendum mattis dignissim. Proin id sapien quis libero interdum porttitor.</p>
-				</article>
-				
-				<article>
-					<h2>Job Title at Company</h2>
-					<p class="subDetails">October 2004 - December 2006</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim. Vestibulum bibendum mattis dignissim. Proin id sapien quis libero interdum porttitor.</p>
-				</article>
+			{% endfor %}	
+
 			</div>
 			<div class="clear"></div>
 		</section>
-		
-		
+		{% endif %}
+		{% if user.profile.skills.all %}
 		<section>
 			<div class="sectionTitle">
 				<h1>Key Skills</h1>
@@ -88,41 +99,35 @@
 			
 			<div class="sectionContent">
 				<ul class="keySkills">
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
+				{% for skill in user.profile.skills.all %}
+					<li>{{skill.skill}}</li>
+					
 				</ul>
 			</div>
+			{% endfor %}
 			<div class="clear"></div>
 		</section>
-		
-		
+		{% endif %}
+
+		{% if user.profile.education.all %}
 		<section>
 			<div class="sectionTitle">
 				<h1>Education</h1>
 			</div>
-			
 			<div class="sectionContent">
-				<article>
-					<h2>College/University</h2>
-					<p class="subDetails">Qualification</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim.</p>
-				</article>
+				{% for education in user.profile.education.all %}
+					<article>
+						<h2>{{education.school_name}}</h2>
+						<p class="subDetails">{{education.start_date}} - {{education.end_date}}</p>
+						<p>{{education.description}}</p>
+					</article>
 				
-				<article>
-					<h2>College/University</h2>
-					<p class="subDetails">Qualification</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim.</p>
-				</article>
+
+				{% endfor %}
 			</div>
 			<div class="clear"></div>
 		</section>
-		
+		{% endif %}
 	</div>
 </div>
 <script type="text/javascript">

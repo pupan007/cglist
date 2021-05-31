@@ -31,7 +31,7 @@ urlpatterns = [
     path('register/', register, name = "register" ),
     path('', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
-    path('profile/', UserEditView.as_view(), name= "profile"),
+    path('profile/', UserEditView.as_view(), name= "edit_profile"),
     path('password/', PasswordChangeView.as_view())
     
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

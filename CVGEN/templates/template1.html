@@ -34,7 +34,7 @@
 		
 		<div id="contactDetails" class="quickFade delayFour">
 			<ul>
-				<li>E-mail: <a href="{{user.email}}" target="_blank">{{user.email}}</a></li>
+				<li>E-mail: {{user.email}}</li>
 
 				{% if user.profile.github %}
 					<li>GitHub: <a href="{{user.profile.github}}">{{user.first_name}}'s Github</a></li>
@@ -78,8 +78,8 @@
 				<h1>Work Experience</h1>
 			</div>
 			
-			{% for experience in user.profile.experience.all %}
 			<div class="sectionContent">
+			{% for experience in user.profile.experience.all %}
 				<article>
 					<h2>{{experience.job_name}}</h2>
 					<p class="subDetails">{{experience.start_date}} - {{experience.end_date}}</p>
@@ -101,10 +101,10 @@
 				<ul class="keySkills">
 				{% for skill in user.profile.skills.all %}
 					<li>{{skill.skill}}</li>
-					
+				{% endfor %}	
 				</ul>
 			</div>
-			{% endfor %}
+			
 			<div class="clear"></div>
 		</section>
 		{% endif %}

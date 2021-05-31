@@ -26,7 +26,7 @@ class AddEducationView(CreateView):
         form.instance.user_id = self.kwargs['pk']  
         return super().form_valid(form)
     
-    success_url = reverse_lazy('edit_profile_page')
+    success_url = reverse_lazy('home')
     
     
 
@@ -40,13 +40,13 @@ class AddExperienceView(CreateView):
         form.instance.user_id = self.kwargs['pk']  
         return super().form_valid(form)
     
-    success_url = reverse_lazy('edit_profile_page')
+    success_url = reverse_lazy('home')
     
 class AddSkillsView(CreateView):
     model = KeySkill
     template_name = "add_skills.html"
     fields = ["skill"]
-    success_url = reverse_lazy('edit_profile_page')
+    success_url = reverse_lazy('home')
     
     
     def form_valid(self, form):

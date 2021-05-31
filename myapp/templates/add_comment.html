@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Comment On Blog Post
+{% endblock  %}
+
+{%block content%}
+<h1>Add Comment</h1></br>
+{%load crispy_forms_tags %}
+<form method ='post' >
+{% csrf_token %}
+
+
+{{form|crispy }}
+<button class = 'btn btn-secondary'>Add Comment</button>
+
+{% endblock %}
+
+
+
+
+{% block contact %}
+{% endblock  %}

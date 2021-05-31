@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 {{post.title}}
 {% endblock  %}
 
 {%block content%}
-<h1>{{post.title}} - {{post.category}}</h1>
+<h1>{{post.title}} </h1>
 <small>By: {{post.author.first_name}} {{post.author.last_name}} - {{post.pub_date}}</small>
 
 {%if user.is_authenticated%}
@@ -38,13 +39,78 @@
   {%endif%}
  {{post.total_likes}} Likes
 </form>
+</br></br></br>
 
-</br></br>
-<a href = "{% url 'home'%}" class = "btn btn-secondary" >Back </a>
+<h2>Comments</h2></br>
 
-{{post.author.profile.bio}}
-<img src ="{{post.author.profile.profile_pic.url}}">
+{% if not post.comments.all %}
+  No Comments Yet? <strong><a href = "{% url 'add_comment' post.pk%}"> Add One</a></strong>
+{% else %}
+  {% for comment in post.comments.all %}
+    <strong>{{comment.name}} - 
+            {{comment.date_added}}
+    </strong>
+    </br>
+    {{comment.body}}
+    </br></br>
+  {% endfor %}
+  </br></br>
+  <strong><a href ="{% url 'add_comment' post.pk%}">Add Comment</a></strong>
+{% endif %}
+<hr>
+
+
+
+
+
+
+</br></br>  
+
+
+<div class="card mb-3" >
+  <div class="row g-0">
+    <div class="col-md-4">
+
+    {%if post.author.profile.profile_pic%}
+      <img src="{{post.author.profile.profile_pic.url}}" width = 200 height = 200 class="card-img" alt="...">
+    {%else%}
+      <img src="{% static 'myapp/images/headshot.jpg' %}" width = 200 height = 200 class="card-img" alt="...">
+    {%endif%}
+
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{post.author.first_name}} {{post.author.last_name}}</h5>
+        <p class = "small text-muted"> 
+        <a href = "{% url 'profile' post.author.profile.id %}">Profile<a/> |    
+        {%if post.author.profile.website%}
+          <a href ="{{post.author.profile.website}}">Website</a> |
+        {% endif %} 
+        {%if post.author.profile.facebook%}
+          <a href ="{{post.author.profile.facebook}}">Facebook</a> |
+        {% endif %} 
+        {%if post.author.profile.twitter%}
+        <a href ="{{post.author.profile.twitter}}">Twitter</a> | 
+        {% endif %}
+        {%if post.author.profile.instagram%}
+        <a href ="{{post.author.profile.instagram}}">Instagram</a> |
+        {% endif %}
+        {%if post.author.profile.linkedin%} 
+        <a href ="{{post.author.profile.linkedin}}">LinkedIn</a>
+        {% endif %} 
+        </p>
+        <p class="card-text">{{post.author.profile.bio}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 {% endblock content%}
+
+{% block contact %}
+{% endblock contact %}
 
 

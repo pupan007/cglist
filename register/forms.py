@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
+from myapp.models import Profile
 
 
 
@@ -25,5 +26,26 @@ class ProfileForm(UserChangeForm):
     
     class Meta:
          model = User
-         fields = ['username', 'first_name', 'last_name', 'email','password' ]
-           
+         fields = ['username', 'first_name', 'last_name', 'email','password']
+         
+
+# class ProfilePageForm(forms.ModelForm):
+#     model = Profile
+#     fields = ('bio', 'profile_pic', 'website', 'facebook', 'linkedin', 'instagram', 'twitter')
+    
+#     widgets = {
+        
+#     }
+    
+    
+    
+    
+    
+#     bio = models.TextField()
+#     profile_pic = models.ImageField(null = True, blank = True,  upload_to = "images/profile/")
+#     website  = models.CharField(max_length = 255, null= True, blank = True)
+#     facebook = models.CharField(max_length = 255, null= True, blank = True)
+#     linkedin = models.CharField(max_length = 255, null= True, blank = True)
+#     instagram = models.CharField(max_length = 255, null= True, blank = True)
+#     twitter = models.CharField(max_length = 255, null= True, blank = True)
+    

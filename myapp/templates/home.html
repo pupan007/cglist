@@ -13,7 +13,7 @@
   </div>
 <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="band">
   {% for post in object_list%}
-    <li><a href = "{% url 'category' post.category  %}">{{post.category}}</a> - <a href = "{%url 'detailed_view' post.pk %}">{{post.title}}</a> - {{post.author.first_name}} {{post.author.last_name}}<br/>
+    <li><a href = "{%url 'detailed_view' post.pk %}">{{post.title}}</a> - <small>{{post.author.first_name}} {{post.author.last_name}}</small><br/>
   {% endfor %}
 </div>
 </ul>

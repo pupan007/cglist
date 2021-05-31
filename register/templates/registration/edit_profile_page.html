@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+Edit Profile
+{% endblock  %}
+
+{%block content%}
+{% if user.is_authenticated%}
+    {% if user.id == profile.user.id%}
+        <h1>Edit Profile</h1></br>
+        <h3>Fill and Edit your profile to generate CV</h3></br>
+        {%load crispy_forms_tags %}
+        <form method ='post' enctype ="multipart/form-data">
+        {% csrf_token %}
+
+
+        {{form|crispy }}
+        <button class = 'btn btn-secondary'>Update Profile Page</button><hr>
+
+        {% if profile.education.all %}
+            <h2>Education</h2></br>
+            {% for education in user.profile.education.all %}
+                <strong>{{education.name}}</strong></br>
+                <i>{{education.start_date}} - {{education.end_date}}</i></br>
+            {% endfor %}</br>
+            <a href ="{% url 'add_education' user.profile.id %}">Add Another</a><hr>
+        {% else %}
+            No education yet. </br>
+            <a href ="{% url 'add_education' user.profile.id %}">Add Education</a><hr>
+        {% endif %}
+
+
+        {% if profile.experience.all %}
+            <h2>Experience</h2></br>
+            {% for experience in user.profile.experience.all %}
+                <strong>{{experience.name}}</strong></br>
+                <i>{{experience.start_date}} - {{experience.end_date}}</i></br>
+            {% endfor %}</br>
+            <a href = "{% url 'add_experience' user.profile.id %}">Add Another</a><hr>
+        {% else %}
+            No experience yet. </br>
+            <a href ="{% url 'add_experience' user.profile.id %}">Add Experience</a><hr>
+        {% endif %}
+
+
+        {% if profile.skills.all %}
+            <h2>Key skills</h2></br>
+            {% for skills in user.profile.skills.all %}
+                <strong>{{skills.skill}}</strong></br>
+            {% endfor %}</br>
+            <a href = "{% url 'add_skills' user.profile.id %}">Add Another</a><hr>
+        {% else %}
+            No experience yet. </br></br>
+            <a href = "{% url 'add_skills' user.profile.id %}">Add Skill</a><hr>
+        {% endif %}
+
+
+        
+
+{% else %}
+    <p>Login <a href = '/login'>Here</a></p>
+
+    {% endif %}
+
+{% endif %}
+{% endblock %}
+
+{% block contact %}
+{% endblock  %}
